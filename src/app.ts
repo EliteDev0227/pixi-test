@@ -3,14 +3,12 @@ import TWEEN from '@tweenjs/tween.js';
 import { Application, Loader, settings, Sprite, Text } from 'pixi.js';
 import { CardScene } from './app/CardScene';
 import { RichTextScene } from './app/RichTextScene';
+import { VfxScene } from './app/VfxScene';
 
 
 const loader = Loader.shared;
 class Game {
   private app: Application;
-
-  private cardScene: CardScene | undefined;
-  private richTextScene: RichTextScene | undefined;
 
   constructor() {
     // instantiate app
@@ -32,6 +30,8 @@ class Game {
     loader.add('twitter', '/assets/img/twitter.png');
     loader.add('youtube', '/assets/img/youtube.png');
     loader.add('btn', '/assets/img/btn.png');
+    loader.add('particle', '/assets/img/particle.png');
+    loader.add('Fire', '/assets/img/Fire.png');
 
     // then launch app on loader ready
     loader.load(this.setup.bind(this));
@@ -40,17 +40,21 @@ class Game {
 
   setup(): void {
 
-    this.cardScene = new CardScene(loader.resources.card.texture);
-    this.app.stage.addChild(this.cardScene);
+    const cardScene = new CardScene(loader.resources.card.texture);
+    this.app.stage.addChild(cardScene);
 
-    this.richTextScene = new RichTextScene([
+    const richTextScene = new RichTextScene([
       loader.resources.fb.texture,
       loader.resources.youtube.texture,
       loader.resources.twitter.texture
     ]);
-    this.app.stage.addChild(this.richTextScene);
+    this.app.stage.addChild(richTextScene);
 
-    const scenes = [this.cardScene, this.richTextScene];
+    const vfxScene = new VfxScene([loader.resources.particle.texture, loader.resources.Fire.texture]);
+    this.app.stage.addChild(vfxScene);
+
+
+    const scenes = [cardScene, richTextScene, vfxScene];
 
     scenes.forEach(item => item.visible = false);
     scenes[0].visible = true;
@@ -78,7 +82,8 @@ class Game {
 
     this.app.ticker.add(() => {
       TWEEN.getAll().forEach(item => item.update());
-      this.cardScene?.update(this.app.ticker);
+      cardScene.update(this.app.ticker);
+      vfxScene.update();
     });
   }
 }
