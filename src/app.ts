@@ -25,13 +25,13 @@ class Game {
     document.body.appendChild(this.app.view);
 
     // preload needed assets
-    loader.add('card', '/assets/img/card.png');
-    loader.add('fb', '/assets/img/fb.png');
-    loader.add('twitter', '/assets/img/twitter.png');
-    loader.add('youtube', '/assets/img/youtube.png');
-    loader.add('btn', '/assets/img/btn.png');
-    loader.add('particle', '/assets/img/particle.png');
-    loader.add('Fire', '/assets/img/Fire.png');
+    loader.add('card', './assets/img/card.png');
+    loader.add('fb', './assets/img/fb.png');
+    loader.add('twitter', './assets/img/twitter.png');
+    loader.add('youtube', './assets/img/youtube.png');
+    loader.add('btn', './assets/img/btn.png');
+    loader.add('particle', './assets/img/particle.png');
+    loader.add('Fire', './assets/img/Fire.png');
 
     // then launch app on loader ready
     loader.load(this.setup.bind(this));
